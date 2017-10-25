@@ -2,7 +2,7 @@
     source: https://www.youtube.com/watch?v=_uk_clTGWlE&list=PLriKzYyLb28kpEnFFi9_vJWPf5-_7d3rX&index=8
 */
 
-$(document).ready(function($){
+jQuery(document).ready(function($){
     var mediaUploader;
     
     $('#upload-button').on('click', function(e){ //e for element, and here is #upload-button

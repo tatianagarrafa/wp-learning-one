@@ -15,17 +15,22 @@ function learning_add_admin_page() {
 	add_menu_page( 'Learning Theme Options', 'Learning', 'manage_options', 'learning_template', 'learning_theme_create_page', 'dashicons-admin-customizer', 110 );
 	
     //Generate Admin SubPages
-    add_submenu_page('learning_template', 'Learning Theme Options', 'General', 'manage_options', 'learning_template', 'learning_theme_create_page');
+    add_submenu_page('learning_template', 'Learning Sidebar Options', 'Sidebar', 'manage_options', 'learning_template', 'learning_theme_create_page');
+    add_submenu_page( 'learning_template', 'Learning Theme Options', 'Theme Options', 'manage_options', 'learning_template_theme', 'learning_theme_support_page');
     add_submenu_page( 'learning_template', 'Learning CSS Options', 'Custom CSS', 'manage_options', 'learning_template_css', 'learning_theme_settings_page');
     
-    //Custom Settings
-    add_action('admin_init', 'learning_custom_settings');
 }
 add_action( 'admin_menu', 'learning_add_admin_page' );
 
+//Custom Settings
+add_action('admin_init', 'learning_custom_settings');
+
 function learning_custom_settings(){
+    
+    //sidebar options
     register_setting('learning-settings-group', 'first_name');
     register_setting('learning-settings-group', 'last_name');
+    register_setting('learning-settings-group', 'user_description');
     register_setting('learning-settings-group', 'twitter', 'learning_sanitize_twitter');
     register_setting('learning-settings-group', 'facebook');
     register_setting('learning-settings-group', 'instagram');
@@ -33,12 +38,41 @@ function learning_custom_settings(){
     add_settings_section('learning-sidebar-options', 'Sidebar options', 'learning_sidebar_options', 'learning_template');
     
     add_settings_field('sidebar-name', 'Name', 'learning_sidebar_name', 'learning_template', 'learning-sidebar-options');
+    add_settings_field('sidebar-description', 'Description', 'learning_sidebar_description', 'learning_template', 'learning-sidebar-options');
     add_settings_field('sidebar-twitter', 'Twitter', 'learning_sidebar_twitter', 'learning_template', 'learning-sidebar-options');
     add_settings_field('sidebar-facebook', 'Facebook', 'learning_sidebar_facebook', 'learning_template', 'learning-sidebar-options');
     add_settings_field('sidebar-instagram', 'Instagram', 'learning_sidebar_instagram', 'learning_template', 'learning-sidebar-options');
     
+    //theme support options
+    register_setting('learning-theme-support', 'post_formats', 'learnign_post_formats_callback');
+    
+    add_settings_section('learning-theme-support', 'Theme Options', 'learning_theme_options', 'learning_template_theme');
+    
+    add_settings_field('post-formats', 'Post Formats', 'learning_post_formats','learning_template_theme', 'learning-theme-support');
+        
 }
 
+//Post Formats Callback function
+function learnign_post_formats_callback($input){
+    return $input;
+}
+
+function learning_theme_options(){
+    echo 'Activate and Deactivate specific Theme Support Options';
+}
+
+function learning_post_formats(){
+    $formats = array('aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat' );
+    $output = '';
+    foreach($formats as $format){
+        $output .=  '<label>
+                        <input type="checkbox" id="' . $format . '" name="' . $format . '" value="1" /> ' . $format . 
+                    '</label><br>';
+    }
+    echo $output;
+}
+
+// Sidebar options
 function learning_sidebar_options(){
     echo "Constumize your Sidebar Information";
 }
@@ -49,6 +83,13 @@ function learning_sidebar_name(){
 	echo '  <input type="text" name="first_name" value="'.$firstName.'" placeholder="First Name" />
             <input type="text" name="last_name" value="'.$lastName.'" placeholder="Last Name" />';
 }
+
+function learning_sidebar_description(){
+    $description = esc_attr(get_option('user_description'));
+	echo '  <input type="text" name="user_description" value="'.$description.'" placeholder="Description" />
+            <p class="description">Something about you</p>';
+}
+
 
 function learning_sidebar_twitter(){
     $twitter = esc_attr(get_option('twitter'));
@@ -73,8 +114,13 @@ function learning_sanitize_twitter( $input ){
 	return $output;
 }
 
+//Template submenu functions
 function learning_theme_create_page() {
 	require_once( get_template_directory() . '/inc/templates/learning-admin.php' );
+}
+
+function learning_theme_support_page(){
+    require_once( get_template_directory() . '/inc/templates/learning-theme-support.php' );
 }
 
 function learning_theme_settings_page() {

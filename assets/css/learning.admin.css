@@ -1,0 +1,63 @@
+/*
+	
+@package learning template
+
+*/
+*{
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.infos{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    
+}
+
+.sidebar-preview { 
+    width: 25%; 
+    background-color: #1F1F1F; 
+    padding: 20px; 
+    text-align: center; 
+    margin-right: 20px; 
+}
+.sidebar { 
+    display: block; 
+    text-align: center; 
+}
+.username,
+.description { 
+    font-weight: 100; 
+    color: #fff; 
+}
+.username { 
+    font-size: 2em; 
+    letter-spacing: 0.1em;
+    margin: 0 0 10px;
+}
+.description { 
+    font-size: 1.1em; 
+    margin: 0 0 20px; 
+}
+
+.image-container { 
+    display: block; 
+    width: 100%; 
+    overflow: hidden; 
+    text-align: center; 
+}
+.profile-picture { 
+    width: 122px; 
+    height: 122px; 
+    overflow: hidden; 
+    border-radius: 50%; 
+    margin: 20px auto; 
+    background-position: center center; 
+    background-repeat: no-repeat; 
+    background-size: cover; 
+}

@@ -44,7 +44,7 @@ function learning_custom_settings(){
     add_settings_field('sidebar-instagram', 'Instagram', 'learning_sidebar_instagram', 'learning_template', 'learning-sidebar-options');
     
     //theme support options
-    register_setting('learning-theme-support', 'post_formats', 'learnign_post_formats_callback');
+    register_setting('learning-theme-support', 'post_formats', 'learning_post_formats_callback');
     
     add_settings_section('learning-theme-support', 'Theme Options', 'learning_theme_options', 'learning_template_theme');
     
@@ -53,7 +53,7 @@ function learning_custom_settings(){
 }
 
 //Post Formats Callback function
-function learnign_post_formats_callback($input){
+function learning_post_formats_callback($input){
     return $input;
 }
 
@@ -62,11 +62,13 @@ function learning_theme_options(){
 }
 
 function learning_post_formats(){
+    $options = get_option('post_formats');
     $formats = array('aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat' );
     $output = '';
     foreach($formats as $format){
+        $checked = ($options[$format] == 1 ? 'checked' : '');
         $output .=  '<label>
-                        <input type="checkbox" id="' . $format . '" name="' . $format . '" value="1" /> ' . $format . 
+                        <input type="checkbox" id="' . $format . '" name="post_formats[' . $format . ']" value="1"' . $checked .' /> ' . $format . 
                     '</label><br>';
     }
     echo $output;
